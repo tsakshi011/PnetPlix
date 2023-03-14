@@ -63,7 +63,7 @@ bool MovieDatabase::load(const string& filename)
                 movie_actors.clear();
                 movie_genres.clear();
                 movie_count++;
-                cerr << line_number << endl;
+                //cerr << line_number << endl;
             }
             if(line_number == 1)
             {
@@ -71,7 +71,7 @@ bool MovieDatabase::load(const string& filename)
                 movie_id = line;
             }else if(line_number == 2)
             {
-                cerr << "name " << line << endl;
+                //cerr << "name " << line << endl;
                 movie_name = line;
             }else if(line_number == 3)
             {
@@ -124,7 +124,7 @@ bool MovieDatabase::load(const string& filename)
                 movie_genres.push_back(genre);
             }else if(line_number == 7)
             {
-                cerr << "rating " << line << endl;
+                //cerr << "rating " << line << endl;
                 movie_rating = stof(line);
             }
             

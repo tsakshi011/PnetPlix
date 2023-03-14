@@ -1,6 +1,7 @@
 #include "User.h"
 
 #include <string>
+#include <iostream>
 #include <vector>
 using namespace std;
 
@@ -9,10 +10,6 @@ User::User(const string& full_name, const string& email,
 {
     user_name = full_name;
     user_email = email;
-    /*for(vector<string>::const_iterator it = watch_history.begin(); it != watch_history.end(); it++)
-    {
-        movie_history.push_back(*it);
-    }*/
     movie_history = watch_history;
 }
 
@@ -29,6 +26,8 @@ string User::get_email() const
 vector<string> User::get_watch_history() const
 {
     //return vector<string>();
+    //cerr << "HERE " << endl;
+    //cerr << "SIZE " << movie_history.size() << endl;
     return movie_history;
 }
 

@@ -19,6 +19,8 @@ struct MovieAndRank
 
     std::string movie_id;
     int compatibility_score;
+    
+    //void addCompatibilityScore(int score){compatibility_score += score;}
 };
 
 class Recommender
