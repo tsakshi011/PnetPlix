@@ -11,10 +11,8 @@ class TreeMultimap
       public:
         Iterator()
         {
-            //m_values.clear();
-            m_valid = false; // Replace this line with correct code.
+            m_valid = false;
             count = 0;
-            //it = vals.begin();
         }
         
         Iterator(std::vector<ValueType>& values)
@@ -37,18 +35,15 @@ class TreeMultimap
 
         void advance()
         {
-            //if(it != vals.end())
             if(count < vals.size())
             {
                 it++;
                 count++;
-                //std::cerr << "count " << count <<  " size " << vals.size() << std::endl;
                 if(count >= vals.size()){
                     m_valid = false;
                 }
             }else{
                 m_valid = false;
-                //std::cerr << "HERE " << std::endl;
             }
         }
 
@@ -66,7 +61,7 @@ class TreeMultimap
 
     ~TreeMultimap()
     {
-        //TreeMultimapHelper(m_root);
+        TreeMultimapHelper(m_root);
     }
 
     void insert(const KeyType& key, const ValueType& value)
@@ -74,7 +69,6 @@ class TreeMultimap
         if(m_root == nullptr)
         {
             m_root = new Node(key, value);
-            //m_root->m_values.push_back(value);
             return;
         }
         Node *curr = m_root;

@@ -14,7 +14,6 @@ UserDatabase::UserDatabase()
 UserDatabase::~UserDatabase()
 {
     vector<User*>::iterator it = delete_reference.begin();
-    int count = 0;
     while(it != delete_reference.end())
     {
         delete *it;
@@ -34,8 +33,6 @@ bool UserDatabase::load(const string& filename)
     int num_movies = -1;
     vector<string> movie_ids;
     fstream file;
-            
-    //std::cerr << filename << endl;
     file.open(filename);
     if(file.is_open()){
         while(getline(file, line, '\n'))
@@ -56,21 +53,17 @@ bool UserDatabase::load(const string& filename)
             }
             if(line_number == 1)
             {
-                //cerr << "name" << " " << line << endl;
                 name = line;
             }else if(line_number == 2)
             {
-                //cerr << "email" << " " << line << endl;
                 email = line;
             }else if(line_number == 3)
             {
-                //cerr << "movies_num" << " " << line << endl;
                 num_movies = stoi(line);
             }else if(line_number > 3)
             {
                 if(num_movies > 0)
                 {
-                    //cerr << line << " ";
                     movie_ids.push_back(line);
                     num_movies --;
                 }

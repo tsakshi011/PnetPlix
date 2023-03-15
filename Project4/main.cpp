@@ -4,6 +4,7 @@
 #include "Recommender.h"
 #include <iostream>
 #include <string>
+#include <chrono>
 using namespace std;
 
 //////////////////////////i/////////////////////////////////////////////////////
@@ -29,7 +30,7 @@ const string MOVIE_DATAFILE = "/Users/sakshi/Desktop/Project4/movies.txt";
 
 void findMatches(const Recommender& r, const MovieDatabase& md, const string& user_email, int num_recommendations)
 {
-    vector<MovieAndRank> recommendations = r.recommend_movies(user_email, 10);
+    vector<MovieAndRank> recommendations = r.recommend_movies(user_email, num_recommendations);
     if(recommendations.empty())
     {
         cout << "We found no movies to recommend ;(.\n";
@@ -38,60 +39,53 @@ void findMatches(const Recommender& r, const MovieDatabase& md, const string& us
         {
             const MovieAndRank& mr = recommendations[i];
             Movie* m = md.get_movie_from_id(mr.movie_id);
-            cout << i << ". " << m->get_title() << "(" << m->get_release_year() << ")\n Rating: " << m->get_rating() << "\n Compatibility Score: " << mr.compatibility_score << "\n";
+            cout << i + 1<< ". " << m->get_title() << "(" << m->get_release_year() << ")\n Rating: " << m->get_rating() << "\n Compatibility Score: " << mr.compatibility_score << "\n";
         }
     }
 }
 
 int main()
 {
+    auto start = chrono::steady_clock::now();
     UserDatabase udb;
     if (!udb.load(USER_DATAFILE)) //returns true failed to load
     {
         cout << "Failed to load user data file " << USER_DATAFILE << "!" << endl;
         return 1;
     }
+    auto stop = chrono::steady_clock::now();
+    cout << "Loading User Database " << (chrono::duration_cast<chrono::milliseconds>(stop - start).count()) << "ms" << endl;
+    
+    start = chrono::steady_clock::now();
     MovieDatabase mdb;
     if (!mdb.load(MOVIE_DATAFILE)) //returns true failed to load
     {
         cout << "Failed to load user data file " << MOVIE_DATAFILE << "!" << endl;
         return 1;
     }
+    stop = chrono::steady_clock::now();
+    cout << "Loading Movie Database " << (chrono::duration_cast<chrono::milliseconds>(stop - start).count()) << "ms" << endl;
     
-    Recommender recommend(udb, mdb);
-    User* u = udb.get_user_from_email("climberkip@gmail.com");
-    vector<string> movies = u->get_watch_history();
-    findMatches(recommend, mdb, "climberkip@gmail.com", 5);
-    //recommend.recommend_movies("climberkip@gmail.com", 3);
-    
-    /*for (;;)
-    {
+        cout << "Enter in a number: ";
+        int count;
+        cin >> count;
+        cin.ignore();
         cout << "Enter user email address (or quit): ";
         string email;
         getline(cin, email);
         if (email == "quit")
             return 0;
         User* u = udb.get_user_from_email(email);
-        if (u == nullptr)
+        if (u == nullptr){
             cout << "No user in the database has that email address." << endl;
-        else
+        }else{
             cout << "Found " << u->get_full_name() << endl;
-    }
-    
-    for (;;)
-    {
-        cout << "Enter movie (or quit): ";
-        string movie;
-        getline(cin, movie);
-        if (movie == "quit")
-            return 0;
-        Movie *m = mdb.get_movie_from_id(movie);
-        if (m == nullptr)
-            cout << "No movie in the database has that ID." << endl;
-        else
-            cout << "FOUND " << m->get_title() << endl;
-            //cout << "Found " << m << endl;
-    }*/
+            Recommender recommend(udb, mdb);
+            start = chrono::steady_clock::now();
+            findMatches(recommend, mdb, email, count);
+            stop = chrono::steady_clock::now();
+            cout << "Finding Recommendations " << (chrono::duration_cast<chrono::milliseconds>(stop - start).count()) << "ms" << endl;
+        }
     
     //cerr << "HERE" << endl;
     /*Recommender recommend(udb, mdb);

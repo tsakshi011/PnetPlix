@@ -19,8 +19,6 @@ struct MovieAndRank
 
     std::string movie_id;
     int compatibility_score;
-    
-    //void addCompatibilityScore(int score){compatibility_score += score;}
 };
 
 class Recommender
@@ -34,8 +32,6 @@ public:
 private:
     const UserDatabase* udb;
     const MovieDatabase* mdb;
-    
-    //bool operator<(const MovieAndRank& m1, const MovieAndRank& m2);
 };
 
 #endif // RECOMMENDER_INCLUDED

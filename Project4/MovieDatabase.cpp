@@ -13,7 +13,6 @@ MovieDatabase::MovieDatabase()
 MovieDatabase::~MovieDatabase()
 {
     vector<Movie*>::iterator it = delete_reference.begin();
-    int count = 0;
     while(it != delete_reference.end())
     {
         delete *it;
