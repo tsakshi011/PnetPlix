@@ -27,6 +27,21 @@ using namespace std;
 const string USER_DATAFILE  = "/Users/sakshi/Desktop/Project4/users.txt";
 const string MOVIE_DATAFILE = "/Users/sakshi/Desktop/Project4/movies.txt";
 
+void findMatches(const Recommender& r, const MovieDatabase& md, const string& user_email, int num_recommendations)
+{
+    vector<MovieAndRank> recommendations = r.recommend_movies(user_email, 10);
+    if(recommendations.empty())
+    {
+        cout << "We found no movies to recommend ;(.\n";
+    }else{
+        for(int i = 0; i < recommendations.size(); i++)
+        {
+            const MovieAndRank& mr = recommendations[i];
+            Movie* m = md.get_movie_from_id(mr.movie_id);
+            cout << i << ". " << m->get_title() << "(" << m->get_release_year() << ")\n Rating: " << m->get_rating() << "\n Compatibility Score: " << mr.compatibility_score << "\n";
+        }
+    }
+}
 
 int main()
 {
@@ -42,6 +57,12 @@ int main()
         cout << "Failed to load user data file " << MOVIE_DATAFILE << "!" << endl;
         return 1;
     }
+    
+    Recommender recommend(udb, mdb);
+    User* u = udb.get_user_from_email("climberkip@gmail.com");
+    vector<string> movies = u->get_watch_history();
+    findMatches(recommend, mdb, "climberkip@gmail.com", 5);
+    //recommend.recommend_movies("climberkip@gmail.com", 3);
     
     /*for (;;)
     {
@@ -88,11 +109,12 @@ int main()
     //findMatches(recommend, mdb, "AbFow2483@charter.net");
     
     
-    Recommender recommend(udb, mdb);
+    /*Recommender recommend(udb, mdb);
     User* u = udb.get_user_from_email("climberkip@gmail.com");
-    cerr << u->get_full_name() << endl;
     vector<string> movies = u->get_watch_history();
-    recommend.recommend_movies("climberkip@gmail.com", 3);
+    recommend.recommend_movies("climberkip@gmail.com", 3);*/
+    
+    
 }
 
 

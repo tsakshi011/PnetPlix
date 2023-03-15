@@ -11,6 +11,17 @@ UserDatabase::UserDatabase()
     loaded = false;// Replace this line with correct code.
 }
 
+UserDatabase::~UserDatabase()
+{
+    vector<User*>::iterator it = delete_reference.begin();
+    int count = 0;
+    while(it != delete_reference.end())
+    {
+        delete *it;
+        it = delete_reference.erase(it);
+    }
+}
+
 bool UserDatabase::load(const string& filename)
 {
     if(loaded){
@@ -22,7 +33,6 @@ bool UserDatabase::load(const string& filename)
     string email = "";
     int num_movies = -1;
     vector<string> movie_ids;
-    vector<User*> delete_reference;
     fstream file;
             
     //std::cerr << filename << endl;

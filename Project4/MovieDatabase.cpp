@@ -1,5 +1,5 @@
 #include "MovieDatabase.h"
-
+#include "Movie.h"
 #include <string>
 #include <vector>
 #include <fstream>
@@ -8,6 +8,17 @@ using namespace std;
 MovieDatabase::MovieDatabase()
 {
     m_loaded = false;// Replace this line with correct code.
+}
+
+MovieDatabase::~MovieDatabase()
+{
+    vector<Movie*>::iterator it = delete_reference.begin();
+    int count = 0;
+    while(it != delete_reference.end())
+    {
+        delete *it;
+        it = delete_reference.erase(it);
+    }
 }
 
 bool MovieDatabase::load(const string& filename)
@@ -33,7 +44,7 @@ bool MovieDatabase::load(const string& filename)
         {
             if(line == "")
             {
-                if(movie_id != "" && movie_name != ""){
+                if(movie_id != "" && movie_name != "" && movie_release_year != ""){
                     Movie* m_movie = new Movie(movie_id, movie_name, movie_release_year, movie_directors, movie_actors, movie_genres, movie_rating);
                     tmm_ids.insert(movie_id, m_movie);
                     for(vector<string>::iterator it = movie_directors.begin(); it != movie_directors.end(); it++)
@@ -47,12 +58,10 @@ bool MovieDatabase::load(const string& filename)
                     for(vector<string>::iterator it = movie_genres.begin(); it != movie_genres.end(); it++)
                     {
                         tmm_genres.insert(*it, m_movie);
-                        //cerr << *it << endl;
                     }
-                    //cerr << "END" << endl;
-                    //cerr << "HERE" << endl;
                     getline(file, line, '\n');
-                    //delete_reference.push_back(m_user);
+                    //cerr << m_movie->get_title() << endl;
+                    delete_reference.push_back(m_movie);
                 }
                 line_number = 1;
                 movie_id = "";
@@ -63,23 +72,18 @@ bool MovieDatabase::load(const string& filename)
                 movie_actors.clear();
                 movie_genres.clear();
                 movie_count++;
-                //cerr << line_number << endl;
             }
             if(line_number == 1)
             {
-                //cerr << "id " << line << endl;
                 movie_id = line;
             }else if(line_number == 2)
             {
-                //cerr << "name " << line << endl;
                 movie_name = line;
             }else if(line_number == 3)
             {
-                //cerr << "release " << line << endl;
                 movie_release_year = line;
             }else if(line_number == 4)
             {
-                //cerr << "director " << line << endl;
                 string director = "";
                 for(int i = 0; i < line.size(); i++)
                 {
@@ -129,18 +133,12 @@ bool MovieDatabase::load(const string& filename)
             }
             
             line_number++;
-            //cerr << "HERE " << movie_count << endl;
-            /*if(movie_count > 31)
-             {
-             cerr << "HERE" << endl;
-             return true;
-             }*/
         }
     }else{
         return false;
     }
     
-    if(movie_id != "" && movie_name != "")
+    if(movie_id != "" && movie_name != "" && movie_release_year != "")
     {
         Movie* m_movie = new Movie(movie_id, movie_name, movie_release_year, movie_directors, movie_actors, movie_genres, movie_rating);
         tmm_ids.insert(movie_id, m_movie);
@@ -156,7 +154,8 @@ bool MovieDatabase::load(const string& filename)
         {
             tmm_genres.insert(*it, m_movie);
         }
-        //delete_reference.push_back(m_user);
+        //cerr << m_movie->get_title() << endl;
+        delete_reference.push_back(m_movie);
     }
     file.close();
     m_loaded = true;

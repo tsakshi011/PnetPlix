@@ -12,6 +12,7 @@ class MovieDatabase
 {
   public:
     MovieDatabase();
+    ~MovieDatabase();
     bool load(const std::string& filename);
     Movie* get_movie_from_id(const std::string& id) const;
     std::vector<Movie*> get_movies_with_director(const std::string& director) const;
@@ -20,6 +21,7 @@ class MovieDatabase
 
   private:
     bool m_loaded;
+    std::vector<Movie*> delete_reference;
     TreeMultimap<std::string, Movie*> tmm_ids;
     TreeMultimap<std::string, Movie*> tmm_genres;
     TreeMultimap<std::string, Movie*> tmm_directors;

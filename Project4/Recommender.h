@@ -25,17 +25,17 @@ struct MovieAndRank
 
 class Recommender
 {
-  public:
+public:
     Recommender(const UserDatabase& user_database,
                 const MovieDatabase& movie_database);
     std::vector<MovieAndRank> recommend_movies(const std::string& user_email,
                                                int movie_count) const;
-
-  private:
-    UserDatabase udb;
-    MovieDatabase mdb;
     
-    bool compare(const MovieAndRank m1, const MovieAndRank m2);
+private:
+    const UserDatabase* udb;
+    const MovieDatabase* mdb;
+    
+    //bool operator<(const MovieAndRank& m1, const MovieAndRank& m2);
 };
 
 #endif // RECOMMENDER_INCLUDED
