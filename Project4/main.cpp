@@ -73,14 +73,26 @@ int main()
     }*/
     
     //cerr << "HERE" << endl;
-    Recommender recommend(udb, mdb);
+    /*Recommender recommend(udb, mdb);
     User* u = udb.get_user_from_email("AbFow2483@charter.net");
     cerr << u->get_full_name() << endl;
     vector<string> movies = u->get_watch_history();
-    recommend.recommend_movies("AbFow2483@charter.net", 3);
+    recommend.recommend_movies("AbFow2483@charter.net", 3);*/
+    
+    /*Recommender recommend(udb, mdb);
+    User* u = udb.get_user_from_email("HezekF0394@aol.com");
+    cerr << u->get_full_name() << endl;
+    vector<string> movies = u->get_watch_history();
+    recommend.recommend_movies("HezekF0394@aol.com", 3);*/
     //cerr << "HERE" << endl;
     //findMatches(recommend, mdb, "AbFow2483@charter.net");
     
+    
+    Recommender recommend(udb, mdb);
+    User* u = udb.get_user_from_email("climberkip@gmail.com");
+    cerr << u->get_full_name() << endl;
+    vector<string> movies = u->get_watch_history();
+    recommend.recommend_movies("climberkip@gmail.com", 3);
 }
 
 

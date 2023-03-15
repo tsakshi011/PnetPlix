@@ -140,10 +140,8 @@ bool MovieDatabase::load(const string& filename)
         return false;
     }
     
-    if(line == " ")
+    if(movie_id != "" && movie_name != "")
     {
-        cerr << "HERE " << line_number << endl;
-        cerr << line << endl;
         Movie* m_movie = new Movie(movie_id, movie_name, movie_release_year, movie_directors, movie_actors, movie_genres, movie_rating);
         tmm_ids.insert(movie_id, m_movie);
         for(vector<string>::iterator it = movie_directors.begin(); it != movie_directors.end(); it++)

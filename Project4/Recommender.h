@@ -34,6 +34,8 @@ class Recommender
   private:
     UserDatabase udb;
     MovieDatabase mdb;
+    
+    bool compare(const MovieAndRank m1, const MovieAndRank m2);
 };
 
 #endif // RECOMMENDER_INCLUDED

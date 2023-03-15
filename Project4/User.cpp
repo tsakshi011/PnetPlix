@@ -15,6 +15,7 @@ User::User(const string& full_name, const string& email,
 
 string User::get_full_name() const
 {
+    //cerr << user_name << endl;
     return user_name;
 }
 
