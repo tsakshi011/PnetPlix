@@ -2,6 +2,7 @@
 
 #include <string>
 #include <vector>
+#include<iostream>
 using namespace std;
 
 Movie::Movie(const string& id, const string& title, const string& release_year,
@@ -28,7 +29,12 @@ Movie::Movie(const string& id, const string& title, const string& release_year,
 
 string Movie::get_id() const
 {
-    return m_id; 
+    string temp_id = "";
+    for(int i = 0; i < m_id.size(); i++)
+    {
+        temp_id += tolower(m_id.at(i));
+    }
+    return temp_id; 
 }
 
 string Movie::get_title() const

@@ -8,10 +8,10 @@ using namespace std;
 
 UserDatabase::UserDatabase()
 {
-    loaded = false;// Replace this line with correct code.
+    loaded = false; //database loaded or not
 }
 
-UserDatabase::~UserDatabase()
+UserDatabase::~UserDatabase() //destructor deleting new allocated Users
 {
     vector<User*>::iterator it = delete_reference.begin();
     while(it != delete_reference.end())
@@ -39,7 +39,7 @@ bool UserDatabase::load(const string& filename)
         {
             if(line == "")
             {
-                if(name != "" && email != "")
+                if(name != "" && email != "") //if data present then user is present and must be created
                 {
                     User* m_user = new User(name, email, movie_ids);
                     delete_reference.push_back(m_user);
@@ -51,7 +51,7 @@ bool UserDatabase::load(const string& filename)
                 movie_ids.clear();
                 continue;
             }
-            if(line_number == 1)
+            if(line_number == 1) //each file patter 1 has the name, 2 has email, 3 has number of movies watched, and 4 after has each movie_id
             {
                 name = line;
             }else if(line_number == 2)
@@ -64,7 +64,12 @@ bool UserDatabase::load(const string& filename)
             {
                 if(num_movies > 0)
                 {
-                    movie_ids.push_back(line);
+                    string temp_movie = "";
+                    for(int i = 0; i < line.size(); i++)
+                    {
+                        temp_movie += tolower(line.at(i));
+                    }
+                    movie_ids.push_back(temp_movie);
                     num_movies --;
                 }
             }

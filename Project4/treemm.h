@@ -25,17 +25,17 @@ class TreeMultimap
 
         ValueType& get_value() const
         {
-            return *it;
+            return *it; //return value at iterator
         }
 
         bool is_valid() const
         {
-            return m_valid;
+            return m_valid; //check validity of iterator
         }
 
         void advance()
         {
-            if(count < vals.size())
+            if(count < vals.size()) //advance iterator if allowed
             {
                 it++;
                 count++;
@@ -66,7 +66,7 @@ class TreeMultimap
 
     void insert(const KeyType& key, const ValueType& value)
     {
-        if(m_root == nullptr)
+        if(m_root == nullptr) //if empty tree then insert node at root
         {
             m_root = new Node(key, value);
             return;
@@ -74,7 +74,7 @@ class TreeMultimap
         Node *curr = m_root;
         if(curr != nullptr)
         {
-            if(curr->m_key == key)
+            if(curr->m_key == key) //if key exists then add value to list of values
             {
                 curr->m_values.push_back(value);
                 return;
@@ -83,7 +83,7 @@ class TreeMultimap
         curr = m_root;
         for(;;)
         {
-            if(curr->m_key == key)
+            if(curr->m_key == key) //if key exists then add value to list of values
             {
                 curr->m_values.push_back(value);
                 return;
@@ -91,18 +91,18 @@ class TreeMultimap
             {
                 if(curr->left != nullptr)
                 {
-                    curr = curr->left;
+                    curr = curr->left; //traverse to left child if present
                 }
                 else{
-                    curr->left = new Node(key, value);
+                    curr->left = new Node(key, value); //create new node if left child not present
                     return;
                 }
             }else if(key > curr->m_key){
                 if(curr->right != nullptr)
                 {
-                    curr = curr->right;
+                    curr = curr->right; //traverse to right child if present
                 }else{
-                    curr->right = new Node(key, value);
+                    curr->right = new Node(key, value);//create new node if right child not present
                     return;
                 }
             }
@@ -114,17 +114,17 @@ class TreeMultimap
         Node* curr = m_root;
         while(curr != nullptr)
         {
-            if(curr->m_key == key){
+            if(curr->m_key == key){ //checking if current node has same key value trying to find
                 Iterator *it = new Iterator(curr->m_values); // found the key;
                 return *it;
             }else if(key < curr->m_key){
-                curr = curr->left;
+                curr = curr->left; //traversing to left child
             }else if(key > curr->m_key){
-                curr = curr->right;
+                curr = curr->right; //traversing through right child
             }
         }
         Iterator *i = new Iterator;
-        return *i;  // Replace this line with correct code.
+        return *i;
     }
 
   private:
@@ -143,7 +143,7 @@ class TreeMultimap
     };
     Node* m_root;
     
-    void TreeMultimapHelper(Node* curr)
+    void TreeMultimapHelper(Node* curr) //clearing all the nodes in the tree
     {
         if(curr == nullptr){
             return;
